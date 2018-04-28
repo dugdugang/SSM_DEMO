@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+>
+    <!-- 1.加载数据库的配置文件 -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!-- 2.配置数据库连接池 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.name}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxIdle" value="5"/>
+    </bean>
+
+
+    <!-- 3.配置SqlsessionFactory，引入的是mybatis和sqlsession整合包下的SqlSessionFactoryBean类 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 下面才是mybatis和spring整合最重要的步骤:a.注入数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- b.mybati全局s配置文件 -->
+        <property name="configLocation" value="classpath:com/dg/ssm/config/mybaties/SqlMapConfig.xml"/>
+    </bean>
+
+
+    <!-- 4.配置指定mapper  MapperFactoryBean：用于生成mapper代理对象
+     -->
+    <!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+    <!--<property name="mapperInterface" value="com.dg.mybatis.mapper.UserMapper"/>-->
+    <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
+
+    <!--5 扫描mapper路径动态-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 配置扫描包的路径 如果要扫描多个包，中间使用半角逗号分隔 要求:Mapper.java与Mapper.xml文件在同一个目录下 -->
+        <property name="basePackage" value="com.dg.ssm.mapper"/>
+        <!-- 使用sqlSessionFactoryBeanName -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+
+    <!--<bean id="userDao" class="com.dg.ssm.dao.UserImpl">-->
+    <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>-->
+    <!--</bean>-->
+
+</beans>

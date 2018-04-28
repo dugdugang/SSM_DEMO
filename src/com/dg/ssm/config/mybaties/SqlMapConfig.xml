@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--&lt;!&ndash;参数配置&ndash;&gt;-->
+    <!--<properties resource="com.dg.ssm"></properties>-->
+    <!--别名-->
+    <typeAliases>
+        <!--<typeAlias type="com.dg.mybatis.bean.User" alias="User"></typeAlias>-->
+        <package name="com.dg.ssm.po"></package>
+    </typeAliases>
+    <!--加载mapper.xml-->
+    <!--<mappers>-->
+        <!--<mapper resource="com/dg/mybatis/sqlmap/User.xml"/>-->
+        <!--&lt;!&ndash;动态代理&ndash;&gt;-->
+        <!--&lt;!&ndash;<mapper class="com.dg.mybatis.mapper.UserMapper"></mapper>&ndash;&gt;-->
+        <!--<package name="com.dg.mybatis.mapper"></package>-->
+    <!--</mappers>-->
+
+
+</configuration>
